@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, ScrollView, ListView, View, Text, ActivityIndicator } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { StyleSheet, ListView, View, Text, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
 
-class Home extends React.Component {
+class Settings extends React.Component {
     constructor(props) {
         super(props);
 
@@ -32,18 +31,12 @@ class Home extends React.Component {
             );
         } else {
             return (
-                <ScrollView>
-                    <List>
-                        {this.props.data.map((contact) => (
-                            <ListItem
-                                key={contact.name}
-                                title={contact.name}
-                                subtitle={contact.description}
-                                onPress={() => this.onRowSelected(contact)}
-                            />
-                        ))}
-                    </List>
-                </ScrollView>
+                <View style={styles.container}>
+                    <ListView enableEmptySections={true}
+                        dataSource={this.state.ds.cloneWithRows(this.props.data)}
+                        renderRow={this.renderRow.bind(this)}
+                        />
+                </View>
             );
         }
     }
@@ -60,11 +53,6 @@ class Home extends React.Component {
             </View>
         )
     }
-
-    onRowSelected = contact => {
-        this.props.navigation.navigate('Details', { ...contact });
-    }
-
 };
 
 function mapStateToProps(state, props) {
@@ -78,13 +66,31 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators(Actions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    paddingTop: 25,
+  },
   activityIndicatorContainer: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center'
+  },
+  row: {
+      borderBottomWidth: 1,
+      borderColor: '#ccc',
+      padding: 10
+  },
+  name: {
+      fontSize: 15,
+      fontWeight: '600'
+  },
+  description: {
+      marginTop: 5,
+      fontSize: 14
   }
 });

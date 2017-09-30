@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
-import Home from './components/home';
+import Home from './components/Home';
 
 function setup() {
     class Root extends React.Component {

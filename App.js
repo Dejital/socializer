@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
-import Home from './components/home';
+import { Tabs } from './config/router';
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Home />
+        <Tabs />
       </Provider>
     )
   }

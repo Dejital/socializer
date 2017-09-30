@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import { DATA_AVAILABLE } from '../actions/';
 
 let dataState = { data: [], loading: true };
