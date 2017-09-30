@@ -4,17 +4,17 @@ import store from './store';
 import Home from './components/Home';
 
 function setup() {
-    class Root extends React.Component {
-        render() {
-            return (
-                <Provider store={store}>
-                    <Home />
-                </Provider>
-            );
-        }
+  class Root extends React.Component {
+    render() {
+      return (
+        <Provider store={store}>
+          <Home />
+        </Provider>
+      );
     }
-    
-    return Root;
+  }
+
+  return Root;
 }
 
 module.exports = setup;
