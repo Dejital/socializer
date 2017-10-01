@@ -6,7 +6,7 @@ import Home from '../components/Home';
 import Details from '../components/Details';
 import Settings from '../components/Settings';
 
-export const HomeStack = StackNavigator({
+const HomeStack = StackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
@@ -21,6 +21,15 @@ export const HomeStack = StackNavigator({
   }
 });
 
+const SettingsStack = StackNavigator({
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      title: 'Preferences'
+    }
+  }
+});
+
 export const Tabs = TabNavigator({
   Home: {
     screen: HomeStack,
@@ -30,7 +39,7 @@ export const Tabs = TabNavigator({
     }
   },
   Settings: {
-    screen: Settings,
+    screen: SettingsStack,
     navigationOptions: {
       tabBarLabel: 'Preferences',
       tabBarIcon: ({ tintColor }) => <Icon name="settings" size={35} color={tintColor} />
