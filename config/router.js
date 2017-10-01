@@ -1,23 +1,36 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, NavigationActions } from 'react-navigation';
 import { Icon } from 'react-native-elements';
+import { Button } from 'react-native';
 
 import Home from '../components/Home';
 import Details from '../components/Details';
 import Settings from '../components/Settings';
+import AddContact from '../components/AddContact';
 
 const HomeStack = StackNavigator({
   Home: {
     screen: Home,
-    navigationOptions: {
-      title: 'Contacts'
-    }
+    navigationOptions: ({ navigation }) => ({
+      title: 'Contacts',
+      headerRight:
+        <Button
+          title='Add'
+          onPress={() => navigation.navigate('AddContact')}
+        />
+    })
   },
   Details: {
     screen: Details,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.name}`
     })
+  },
+  AddContact: {
+    screen: AddContact,
+    navigationOptions: {
+      title: 'New Contact'
+    }
   }
 });
 
