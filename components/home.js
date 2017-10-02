@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, ListView, View, Text, ActivityIndicator } from 'react-native';
+import { AsyncStorage, StyleSheet, ScrollView, ListView, View, Text, ActivityIndicator } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,7 +16,13 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getData();
+    var _this = this;
+    AsyncStorage.getItem('data', (err, contacts) => {
+      if (contacts === null) {
+        AsyncStorage.setItem('data', JSON.stringify([]));
+      }
+      _this.props.getData();
+    });
   }
 
   render() {

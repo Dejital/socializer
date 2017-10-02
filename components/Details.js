@@ -7,8 +7,8 @@ import * as Actions from '../actions';
 
 class Details extends Component {
   componentDidMount(){
-    let name = this.props.navigation.state.params.name;
-    this.props.getContact(name);
+    let id = this.props.navigation.state.params.id;
+    this.props.getContact(id);
   }
 
   render() {

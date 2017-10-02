@@ -1,31 +1,79 @@
-export const DATA_AVAILABLE = 'DATA_AVAILABLE';
-export const CONTACT_AVAILABLE = 'CONTACT_AVAILABLE';
+import { AsyncStorage } from 'react-native';
 
-const data = [
-  { 'name': 'Serge', 'description': 'That is me!', 'touched': '', 'oneOnOned': '' },
-  { 'name': 'Sharmi', 'description': 'That is my wife!', 'touched': '2017-08-09 13:37:38', 'oneOnOned': '2017-08-09 13:37:38' },
-  { 'name': 'Misha', 'description': 'That is the Mish-boi! He is the man, and he is super cool and this is a super long description.', 'touched': '', 'oneOnOned': '' }
-];
+export const DATA_AVAILABLE = 'DATA_AVAILABLE';
+export const ADD_CONTACT = 'ADD_CONTACT';
+export const UPDATE_CONTACT = 'UPDATE_CONTACT';
+export const CONTACT_AVAILABLE = 'CONTACT_AVAILABLE';
 
 export function getData() {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch({type: DATA_AVAILABLE, data: data});
-    }, 2000)
+      AsyncStorage.getItem('data', (err, contacts) => {
+        if (contacts !== null) {
+          dispatch({ type: DATA_AVAILABLE, data: JSON.parse(contacts) });
+        }
+      });
+    }, 2000);
   };
 }
 
-export function getContact(name) {
+export function getContact(id) {
   return (dispatch) => {
     setTimeout(() => {
-      let contact = {};
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].name === name) {
-          contact = data[i];
-          break;
+      AsyncStorage.getItem('data', (err, contacts) => {
+        if (contacts !== null) {
+          contacts = JSON.parse(contacts);
+          let index = getIndex(contacts, id);
+          if (index !== -1) {
+            dispatch({ type: CONTACT_AVAILABLE, data: contacts[index] })
+          }
         }
-      }
-      dispatch({type: CONTACT_AVAILABLE, data: contact});
-    }, 2000)
+      });
+    }, 2000);
   };
+}
+
+export function addContact(contact) {
+  return (dispatch) => {
+    setTimeout(() => {
+      AsyncStorage.getItem('data', (err, contacts) => {
+        if (contacts !== null) {
+          contacts = JSON.parse(contacts);
+          contacts.unshift(contact);
+          AsyncStorage.setItem('data', JSON.stringify(contacts), () => {
+            dispatch({ type: ADD_CONTACT, contact: contact })
+          });
+        }
+      });
+    }, 2000);
+  };
+}
+
+export function updateContact(contact) {
+  return (dispatch) => {
+    setTimeout(() => {
+      AsyncStorage.getItem('data', (err, contacts) => {
+        if (contacts !== null) {
+          contacts = JSON.parse(contacts);
+          let index = getIndex(contacts, contact.id);
+          if (index !== -1) {
+            contacts[index]['name'] = contact.name;
+            contacts[index]['description'] = contact.description;
+          }
+          AsyncStorage.setItem('data', JSON.stringify(contacts), () => {
+            dispatch({ type: UPDATE_QUOTE, contact: contact });
+          });
+        }
+      });
+    }, 2000);
+  };
+}
+
+function cloneObject(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
+function getIndex(data, id) {
+  let clone = cloneObject(data);
+  return clone.findIndex((obj) => parseInt(obj.id) === parseInt(id));
 }
