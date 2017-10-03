@@ -13,7 +13,7 @@ export function getData() {
           dispatch({ type: DATA_AVAILABLE, data: JSON.parse(contacts) });
         }
       });
-    }, 2000);
+    });
   };
 }
 
@@ -29,7 +29,7 @@ export function getContact(id) {
           }
         }
       });
-    }, 2000);
+    });
   };
 }
 
@@ -45,7 +45,7 @@ export function addContact(contact) {
           });
         }
       });
-    }, 2000);
+    });
   };
 }
 
@@ -65,7 +65,7 @@ export function updateContact(contact) {
           });
         }
       });
-    }, 2000);
+    });
   };
 }
 

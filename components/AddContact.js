@@ -65,6 +65,7 @@ class AddContact extends Component {
     this.state.name = '';
     this.state.description = '';
     this.state.locked = false;
+    this.props.navigation.goBack();
   }
 
   generateId() {

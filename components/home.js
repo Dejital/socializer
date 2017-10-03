@@ -19,7 +19,8 @@ class Home extends React.Component {
     var _this = this;
     AsyncStorage.getItem('data', (err, contacts) => {
       if (contacts === null) {
-        AsyncStorage.setItem('data', JSON.stringify([]));
+        let emptyList = [];
+        AsyncStorage.setItem('data', JSON.stringify(emptyList));
       }
       _this.props.getData();
     });
