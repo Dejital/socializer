@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { View, ScrollView, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import * as Actions from '../actions';
 
@@ -48,19 +48,71 @@ class Details extends Component {
           <List>
             <ListItem
               title='Last Contact'
-              rightTitle={touched ? touched : 'Never'}
+              rightTitle={touched ? new Date(touched).toLocaleDateString() : 'Never'}
+              rightTitleStyle={styles.dateStyle}
               hideChevron
             />
             <ListItem
               title='Last One on One'
-              rightTitle={oneOnOned ? oneOnOned : 'Never'}
+              rightTitle={oneOnOned ? new Date(oneOnOned).toLocaleDateString() : 'Never'}
+              rightTitleStyle={styles.dateStyle}
               hideChevron
             />
           </List>
 
+          <Button
+            title='Contacted Today'
+            onPress={this.markContactedToday.bind(this)}
+          />
+
+          <Button
+            title='Contacted Yesterday'
+            onPress={this.markContactedYesterday.bind(this)}
+          />
+
+          <Button
+            title='One on Oned Today'
+            onPress={this.markOneOnOnedToday.bind(this)}
+          />
+
+          <Button
+            title='One on Oned Yesterday'
+            onPress={this.markOneOnOnedYesterday.bind(this)}
+          />
+
         </ScrollView>
       );
     }
+  }
+
+  markContactedToday() {
+    let date = new Date();
+    this.props.data.touched = date;
+    this.props.updateContact(this.props.data);
+    this.forceUpdate();
+  }
+
+  markOneOnOnedToday() {
+    let date = new Date();
+    this.props.data.oneOnOned = date;
+    this.props.updateContact(this.props.data);
+    this.forceUpdate();
+  }
+
+  markContactedYesterday() {
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+    this.props.data.touched = date;
+    this.props.updateContact(this.props.data);
+    this.forceUpdate();
+  }
+
+  markOneOnOnedYesterday() {
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+    this.props.data.oneOnOned = date;
+    this.props.updateContact(this.props.data);
+    this.forceUpdate();
   }
 }
 
@@ -89,5 +141,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  dateStyle: {
+    marginRight: 5,
+    color: 'black'
   }
 });

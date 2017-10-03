@@ -59,9 +59,11 @@ export function updateContact(contact) {
           if (index !== -1) {
             contacts[index]['name'] = contact.name;
             contacts[index]['description'] = contact.description;
+            contacts[index]['touched'] = contact.touched;
+            contacts[index]['oneOnOned'] = contact.oneOnOned;
           }
           AsyncStorage.setItem('data', JSON.stringify(contacts), () => {
-            dispatch({ type: UPDATE_QUOTE, contact: contact });
+            dispatch({ type: UPDATE_CONTACT, contact: contact });
           });
         }
       });
